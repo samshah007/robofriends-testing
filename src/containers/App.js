@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setSearchField, requestRobots } from '../actions';
 
-import CardList from '../components/CardList';
-import SearchBox from '../components/SearchBox';
-import Scroll from '../components/Scroll';
+import CardList from '../components/cardlist/CardList';
+import SearchBox from '../components/searchbox/SearchBox';
+import Scroll from '../components/scroll/Scroll';
 import ErrorBoundry from '../components/ErrorBoundry';
-import Header from '../components/Header';
+import Header from '../components/header/Header';
 
 import './App.css';
 

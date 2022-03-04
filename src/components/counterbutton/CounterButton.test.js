@@ -12,3 +12,9 @@ it('correctly increments counter', () => {
     wrapper.find('[id="counter"]').simulate('click');
     expect(wrapper.state()).toEqual({count:1});
 });
+it('check for life cycle methode', () => {
+    const mockColor = 'red';
+    const wrapper = shallow(<CounterButton color={mockColor}></CounterButton>);
+    expect(wrapper.instance().shouldComponentUpdate(wrapper.state(),{count:0})).toEqual(false);
+    expect(wrapper.instance().shouldComponentUpdate(wrapper.state(),{count:1})).toEqual(true);
+});

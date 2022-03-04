@@ -9,7 +9,7 @@ import 'tachyons';
 
 import App from './containers/App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import { requestRobots, searchRobots } from './reducers'
+import { requestRobots, searchRobots } from './redux/reducers/reducers'
 
 import './index.css'; 
 

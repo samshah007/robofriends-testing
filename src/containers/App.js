@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { apiCall } from '../api/api';
 import { setSearchField, requestRobots } from '../redux/actions/actions';
 
 import MainPage from '../components/mainpage/MainPage';

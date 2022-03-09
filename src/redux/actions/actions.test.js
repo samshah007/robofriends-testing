@@ -9,27 +9,44 @@ import {
 
  import configureMockStore from 'redux-mock-store';
  import thunkMiddleware from 'redux-thunk';
+ import promiseMiddleware from "redux-promise-middleware";
 
- const mockStore = configureMockStore([thunkMiddleware]);
-
- describe('setSearchField',()=>{
-     const text = 'woo';
-     const expectedAction = {
-        type: CHANGE_SEARCHFIELD, payload: text 
-     }
-    it('should create actions to search robots',() =>{
-        expect(actions.setSearchField(text)).toEqual(expectedAction);
-    });
- });
-
- describe('requestRobots',()=>{
-    const store = mockStore();
-    store.dispatch(actions.requestRobots());
-    const action = store.getActions();
-    const expectedAction = {
-       type: REQUEST_ROBOTS_PENDING 
-    }
+ const mockStore = configureMockStore([thunkMiddleware,promiseMiddleware]);
+describe('setSearchField',()=>{
+   const text = 'woo';
+   const expectedAction = {
+      type: CHANGE_SEARCHFIELD, payload: text 
+   }
+   it('should create actions to search robots',() =>{
+         expect(actions.setSearchField(text)).toEqual(expectedAction);
+   });
+});
+ describe("User Actions", () => {
+   let store;
+ 
+   beforeEach(() => {
+     store = mockStore({
+       users: {}
+     });
+   });
    it('handle requesting robotos from API',() =>{
-       expect(action[0]).toEqual(expectedAction);
+      store.dispatch(actions.requestRobots());
+      const action = store.getActions();
+      const expectedAction = {
+         type: REQUEST_ROBOTS_PENDING 
+      }
+      expect(action[0]).toEqual(expectedAction);
+   });
+   it('handle requesting robotos from API',async() =>{
+      fetch = jest.fn()
+      .mockReturnValue(Promise.resolve({
+         json: () => Promise.resolve({
+            data: [{ id: 1, name: "Vasilis" }]
+         })
+      }));
+      
+      await store.dispatch(actions.requestRobots());
+      const action = store.getActions();
+      console.log(action);
    });
 });

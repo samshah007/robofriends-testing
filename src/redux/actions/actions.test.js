@@ -23,30 +23,45 @@ describe('setSearchField',()=>{
 });
  describe("User Actions", () => {
    let store;
- 
+   const expectedAction = {
+      type: REQUEST_ROBOTS_PENDING 
+   }
+   
    beforeEach(() => {
      store = mockStore({
        users: {}
      });
    });
-   it('handle requesting robotos from API',() =>{
+   it('check request robots API pending status',() =>{
       store.dispatch(actions.requestRobots());
       const action = store.getActions();
-      const expectedAction = {
-         type: REQUEST_ROBOTS_PENDING 
-      }
       expect(action[0]).toEqual(expectedAction);
    });
-   it('handle requesting robotos from API',async() =>{
+   it('check request robots API sucess status',() =>{
       fetch = jest.fn()
       .mockReturnValue(Promise.resolve({
          json: () => Promise.resolve({
             data: [{ id: 1, name: "Vasilis" }]
          })
       }));
-      
-      await store.dispatch(actions.requestRobots());
-      const action = store.getActions();
-      console.log(action);
+      store.dispatch(actions.requestRobots()).then(() =>{
+         const action = store.getActions();
+         expect(action.length).toEqual(2);
+         expect(action[0]).toEqual(expectedAction);
+         expect(action[1].payload.data[0].name).toEqual('Vasilis');
+      });
+   });
+   it('check request robots API fail status',() =>{
+      fetch = jest.fn()
+      .mockReturnValue(Promise.reject({
+         json: () => Promise.reject({
+            error: "Something bad happened"
+         })
+       }));
+      store.dispatch(actions.requestRobots()).catch(() =>{
+         const action = store.getActions();
+         expect(action.length).toEqual(2);
+         expect(action[1].payload.error).toEqual('Something bad happened');
+      });
    });
 });

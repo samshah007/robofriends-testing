@@ -1,5 +1,5 @@
 # robofriends-pwa
-adding PWA capabilities to a react app
+adding PWA capabilities to a react app with test.
 
 To run the project:
 
